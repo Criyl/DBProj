@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake Dealership</title>
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!--  CSS  -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+
+<section class="text-center ">
+    <img class="logo-image" src="{% static 'images/fake_dealership.png' %}">
+</section>
+
+<section id="navigation-bar">
+    <nav class="navbar navbar-inverse navbar-expand-lg navbar-static-top">
+        <div class="container-fluid">
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-elements">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbar-elements">
+                <ul class="nav navbar-nav navbar-center">
+                    <li class="nav-item"><a href="/">Home</a></li>
+                    <li class="nav-item"><a href="/catalog">Catalog</a></li>
+                    <li class="nav-item"><a href="/contact">Contact Us</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <div class="btn-group setting">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"> Setting <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Sales</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Customer</a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="below-nav"></div>
+</section>
+
+{% block content %}
+
+{% endblock %}
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
