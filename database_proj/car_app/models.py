@@ -13,13 +13,13 @@ class Address(models.Model):
     address_id = models.AutoField(primary_key=True)
     street_number = models.IntegerField()
     street_name = models.CharField(max_length=DEFAULT_MAX)
-    zip_code = models.IntegerField()
+    zip_code = models.ForeignKey(ZipCode, on_delete=models.CASCADE)
 
 
 class Site(models.Model):
     site_id = models.AutoField(primary_key=True)
     site_name = models.CharField(max_length=DEFAULT_MAX)
-    address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
+    zip_code = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
 class Position(models.Model):
@@ -50,13 +50,31 @@ class Customer(models.Model):
     address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
+class CarMake(models.Model):
+    make_id = models.AutoField(primary_key=True)
+    make_name = models.CharField(max_length=DEFAULT_MAX)
+
+    def __str__(self):
+        return '%s' % self.make_name
+
+
+class CarModel(models.Model):
+    model_id = models.AutoField(primary_key=True)
+    make_id = models.ForeignKey(CarMake, on_delete=models.DO_NOTHING)
+    model_name = models.CharField(max_length=DEFAULT_MAX)
+
+    def __str__(self):
+        return '%s %s' % (self.make_id.make_name, self.model_name)
+
+
 class Car(models.Model):
     car_id = models.AutoField(primary_key=True)
-    make_name = models.CharField(max_length=DEFAULT_MAX)
-    model_name = models.CharField(max_length=DEFAULT_MAX)
+    model_id = models.ForeignKey(CarModel, on_delete=models.DO_NOTHING)
     year = models.IntegerField()
     color = models.CharField(max_length=DEFAULT_MAX)
+    vin = models.CharField(max_length=17)
     mileage = models.IntegerField()
+    dealership = models.ForeignKey(Site, on_delete=models.DO_NOTHING)
     description = models.CharField(max_length=200)
 
 

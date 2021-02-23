@@ -29,7 +29,8 @@
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbar-elements">
                 <ul class="nav navbar-nav navbar-center">
-                    <li class="nav-item"><a href="/">Home</a></li>
+                    <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a href="{% url 'car_app:newcar' %}">New Car</a></li>
                     <li class="nav-item"><a href="/catalog">Catalog</a></li>
                     <li class="nav-item"><a href="/contact">Contact Us</a></li>
                 </ul>

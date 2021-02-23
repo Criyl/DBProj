@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+<div class="container">
+    <button><a href="{% url 'car_app:model' %}">New Model</a></button>
+    <button><a href="{% url 'car_app:dealership' %}">New Dealership</a></button>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input class="btn btn-default" type="submit">
+    </form>
+</div>
+
+{% endblock %}
