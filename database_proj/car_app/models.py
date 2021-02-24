@@ -13,7 +13,7 @@ class Address(models.Model):
     address_id = models.AutoField(primary_key=True)
     street_number = models.IntegerField()
     street_name = models.CharField(max_length=DEFAULT_MAX)
-    zip_code = models.IntegerField()
+    zip_code = models.ForeignKey(ZipCode, on_delete=models.DO_NOTHING)
 
 
 class Site(models.Model):

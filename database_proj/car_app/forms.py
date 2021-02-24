@@ -1,7 +1,6 @@
 from django import forms
 
-from . import models
-from .models import Position, Salesman
+from .models import *
 
 
 class NewEmployeeForm(forms.ModelForm):
@@ -25,7 +24,7 @@ class NewEmployeeForm(forms.ModelForm):
 
 
 class NewPositionsForm(forms.ModelForm):
-    position_name = forms.CharField(label="Position Name", max_length=models.DEFAULT_MAX)
+    position_name = forms.CharField(label="Position Name", max_length=DEFAULT_MAX)
 
     class Meta:
         model = Position
@@ -40,3 +39,21 @@ class NewPositionsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(NewPositionsForm, self).__init__(*args, **kwargs)
+
+
+class EditCustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['f_name', 'l_name']
+
+    def save(self, commit=True):
+        position = super(EditCustomerForm, self).save(commit=False)
+
+        if commit:
+            position.save()
+        return position
+
+    def __init__(self, *args, **kwargs):
+        super(EditCustomerForm, self).__init__(*args, **kwargs)
+        self.fields['f_name'].label = 'First Name'
+        self.fields['l_name'].label = 'Last Name'
