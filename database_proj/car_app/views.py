@@ -23,7 +23,7 @@ class CustomerDashView(CreateView):
     template_name = 'customer_dashboard.html'
     
 class SalespersonDashView(TemplateView):
-    template_name = 'newCar.html'
+    template_name = 'car_manager.html'
 
 
 class TV(TemplateView):
