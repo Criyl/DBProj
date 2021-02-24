@@ -1,0 +1,94 @@
+﻿{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+<div class="container">
+<head>
+    <meta charset="utf-8" />
+    <title>Just something</title>
+    <style>
+        .dealership {
+            padding: 0 39px;
+        }
+
+        .make {
+            padding: 0 41px;
+        }
+
+        .model {
+            padding: 0 45px;
+        }
+
+        .color {
+            padding: 0 43px;
+        }
+
+        .left-float {
+            float: left;
+        }
+    </style>
+</head>
+<html>
+<body>
+    <div>
+        <br />
+            Dealership: <select name="dealership" id="dealership">
+                <option value="none">Select</option>
+                <option value="brown daub">Brown Daub</option>
+                <option value="i can't think of another">Other</option>
+            </select>
+        &emsp;Car Make: <select name="car makes" id="car makes">
+            <option value="none">Select</option>
+            <option value="nissan">Nissan</option>
+            <option value="ford">Ford</option>
+            <option value="chevy">Chevy</option>
+            <option value="audi">Audi</option>
+        </select>
+        &emsp;Car Model: <select name="car models" id="car models">
+            <option value="none">Select</option>
+            <option value="rogue">Rogue</option>
+            <option value="taurus">taurus</option>
+            <option value="camaro">Camaro</option>
+            <option value="a8">A8</option>
+        </select>
+        &emsp;Car Color: <select name="car colors" id="car colors">
+            <option value="none">Select</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+            <option value="purple">Purple</option>
+            <option value="yellow">Yellow</option>
+            <option value="pink">Pink</option>
+            <option value="orange">Orange</option>
+            <option value="green">Green</option>
+        </select>
+    </div>
+    <div>
+        <button type="button" class="dealership">Add Dealership</button>
+        <button type="button" class="make">Add Make</button>
+        <button type="button" class="model">Add Model</button>
+        <button type="button" class="color">Add Color</button>
+    </div>
+    <div>
+        <br />Car Year: <input type="number" min="1990" max="2021" value="1990">
+        Car Mileage: <input type="number" min="1000" max="75000" value="1000">
+        Car VIN#: <input type="number" min="00000000" max="9999999" value="0000000">
+        Car Price: <input type="number" min="30000" max="150000" value="30000">
+    </div>
+    <div class="left-float">
+        <br />
+        <textarea name="text" cols="90" rows="20" readonly="readonly">List of Cars</textarea>
+    </div>
+    <div>
+        <br />
+        <button type="button">Add</button><br />
+        <button type="button">Delete</button>
+    </div><br />
+    <button type="button">Done</button>
+</body>
+</html>
+</div>
+
+{% endblock %}

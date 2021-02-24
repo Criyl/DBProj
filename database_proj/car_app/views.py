@@ -21,6 +21,9 @@ class CustomerDashView(CreateView):
     form_class = forms.EditCustomerForm
     success_url = reverse_lazy('car_app:customer')
     template_name = 'customer_dashboard.html'
+    
+class SalespersonDashView(TemplateView):
+    template_name = 'newCar.html'
 
 
 class TV(TemplateView):
