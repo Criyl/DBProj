@@ -1,24 +1,65 @@
 body {
-    background-color: #DDDDDD;
+    background-color: #FFFFFF;
     color: #444444;
 }
 
-.logo-background { position: relative; }
+.logo-background {
+    position: relative;
+    background-color: #DDDDDD;
+}
 
 .logo-image {
-   width:40%;
+   width:10%;
+   float:left;
 }
+.logo-icon {
+   height:400%;
+   background-color: #FFFFFF;
+   border-radius: 300px;
+   border:1px solid;
+   border-color:#DDDDDD;
+}
+.divider {
+  height: 1px;
+  width:100%;
+  display:block; /* for use on default inline elements like span */
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+
 
 .list-group{
-    height:100px;
+    border:2px solid;
+    padding:10px;
+    background-color:#CCCCCC;
+    }
+
+.list-group .list-group-item {
+    border:2px solid;
 }
 
+.description{
+    float:left;
+    width:50%;
+    padding:10px;
+}
 
 .setting{
     position: absolute;
     right: 0px;
     width: 300px;
     padding: 10px;
+}
+
+.d-block{
+    width:100%;
+}
+
+.navbar{
+margin:0;
+background-color: #222222;
+    color: #444444;
 }
 
 .overlay {
@@ -32,4 +73,8 @@ body {
     z-index:2019;
 }
 
-
+footer{
+background-color:#222222;
+display:block;
+height:100%;
+}
