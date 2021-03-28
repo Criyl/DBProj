@@ -5,93 +5,103 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Just something</title>
+    <title>Car Manager</title>
     <style>
-        .dealership { padding: 0 39px; }
-        .make { padding: 0 41px; }
-        .model { padding: 0 45px; }
-        .color { padding: 0 43px; }
-        .float-left { float: left; }
 		.right { float: right; text-align: right; }
-        .bottom { padding: 100px 0; }
-        .separate-button { padding: 5px 0;}
-        .button-padding { padding: 0 22px; }
-        .button-padding2 { padding: 0 14px; }
+		.div { border:1px solid black; }
     </style>
 </head>
 <html>
 <body>
-    <div class="container">
+    <div class="container"><br /><br />
         <div class="right">
             <br /><button type="button">Potential Sales</button>
-            <div class="separate-button">
-                <button type="button" class="button-padding">Sold Cars</button>
+            <div style="padding: 5px 0;">
+                <button type="button" style="padding: 0 22px;">Sold Cars</button>
             </div>
         </div>
-        <div>
-            <br />
-            Dealership: <select name="dealership">
-                <option value="none">Select</option>
-                <option value="brown daub">Brown Daub</option>
-                <option value="i can't think of another">Other</option>
-            </select>
-            &emsp;Car Make: <select name="car makes">
-                <option value="none">Select</option>
-                <option value="nissan">Nissan</option>
-                <option value="ford">Ford</option>
-                <option value="chevy">Chevy</option>
-                <option value="audi">Audi</option>
-            </select>
-            &emsp;Car Model: <select name="car models">
-                <option value="none">Select</option>
-                <option value="rogue">Rogue</option>
-                <option value="taurus">taurus</option>
-                <option value="camaro">Camaro</option>
-                <option value="a8">A8</option>
-            </select>
-            &emsp;Car Color: <select name="car colors">
-                <option value="none">Select</option>
-                <option value="red">Red</option>
-                <option value="blue">Blue</option>
-                <option value="black">Black</option>
-                <option value="white">White</option>
-                <option value="purple">Purple</option>
-                <option value="yellow">Yellow</option>
-                <option value="pink">Pink</option>
-                <option value="orange">Orange</option>
-                <option value="green">Green</option>
-            </select>
-        </div>
-        <div>
-            <button type="button" class="dealership">Add Dealership</button>
-            <button type="button" class="make">Add Make</button>
-            <button type="button" class="model">Add Model</button>
-            <button type="button" class="color">Add Color</button>
-        </div>
-        <div>
-            <br />Car Year: <input type="number" min="1990" max="2021" value="1990">
-            Car Mileage: <input type="number" min="1000" max="75000" value="1000">
-            Car VIN#: <input type="number" min="00000000" max="9999999" value="0000000">
-            Car Price: <input type="number" min="30000" max="150000" value="30000">
-        </div>
-        <div>
-            <div class="float-left">
-                <br />
-                <textarea name="text" cols="90" rows="10" readonly="readonly">List of Cars</textarea>
-            </div>
-            <div>
-                <br />
-                <button type="button" class="button-padding2">Add Car</button><br />
-                <div class="separate-button">
-                    <button type="button">Delete Car</button>
-                </div>
-            </div>
-            <div class="bottom">
-                <br /><button type="button" class="button-padding2">Confirm</button>
-            </div>
-        </div>
+        <form action="" method="CAR">
+			<div>
+				<br />
+				Dealership: <select name="dealership">
+					<option value="none">Select</option>
+					<option value="brown daub">Brown Daub</option>
+					<option value="i can't think of another">Other</option>
+				</select>
+				&emsp;Car Make: <select name="make_name">
+					<option value="none">Select</option>
+					<option value="nissan">Nissan</option>
+					<option value="ford">Ford</option>
+					<option value="chevy">Chevy</option>
+					<option value="audi">Audi</option>
+				</select>
+				&emsp;Car Model: <select name="model_name">
+					<option value="none">Select</option>
+					<option value="rogue">Rogue</option>
+					<option value="taurus">Taurus</option>
+					<option value="camaro">Camaro</option>
+					<option value="a8">A8</option>
+				</select>
+				&emsp;Car Color: <select name="color">
+					<option value="none">Select</option>
+					<option value="red">Red</option>
+					<option value="blue">Blue</option>
+					<option value="black">Black</option>
+					<option value="white">White</option>
+					<option value="purple">Purple</option>
+					<option value="yellow">Yellow</option>
+					<option value="pink">Pink</option>
+					<option value="orange">Orange</option>
+					<option value="green">Green</option>
+				</select>
+			</div>
+			<div>
+				<button type="button" style="padding: 0 39px;">Add Dealership</button>
+				<button type="button" style="padding: 0 41px;">Add Make</button>
+				<button type="button" style="padding: 0 45px;">Add Model</button>
+				<button type="button" style="padding: 0 43px;">Add Color</button>
+			</div>
+			<div>
+				<br />Car Year: <input name="year" type="number" min="1990" max="2021" value="1990">
+				Car Mileage: <input name="mileage" type="number" min="1000" max="75000" value="1000">
+				Car VIN#: <input name="vin" type="number" min="00000000" max="9999999" value="0000000">
+				Car Price: <input name="price" type="number" min="30000" max="150000" value="30000">
+			</div>
+			<div>
+				<br />Description:<br />
+				<textarea name="description" cols="79" rows="3" style="width: 57.5%;"></textarea>
+			</div>
+			<div style="width:657px">
+				<div style="float:left;padding:25px 0;">
+					<form action="/action_page.php" name="car_upload">
+					  <input type="file" accept="image/*" id="car_image" onchange="showImage(event)" style="display:none">
+					  <label for="car_image" style="cursor:pointer;">Upload Image</label>
+					</form>
+					<div>
+						<img id="car" alt="Upload" style="width:300px;padding:5px 0;display:none;"/>
+					</div>
+				</div>
+				<div style="padding: 25px 0;text-align:right;">
+					<button type="submit" style="padding: 0 19px;" value="CAR">Add Car</button><br />
+					<div style="padding:15px 0;">
+						<button type="button" style="padding: 1px 5px;" value="DELETE">Remove Car</button>
+					</div>
+				</div>
+			</div>
+        </form>
     </div>
 </body>
+<script>
+	var showImage = function(event)
+	{
+		var image = document.getElementById("car");
+		image.onload = function ()
+		{ 
+			this.style.display = "";
+		}
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
+</script>
 </html>
 
 {% endblock %}
