@@ -25,10 +25,9 @@
         <form action="" method="CAR">
 			<div>
 				<br />
-				Dealership: <select name="dealership">
+				Dealership: <select name="dealership" id="selectDealership">
 					<option value="none">Select</option>
 					<option value="brown daub">Brown Daub</option>
-					<option value="i can't think of another">Other</option>
 				</select>
 				&emsp;Car Make: <select name="make_name">
 					<option value="none">Select</option>
@@ -79,7 +78,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-								<button type="submit" class="btn btn-primary" data-dismiss="modal">Enter</button>
+								<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="enterDealership(event)">Enter</button>
 							</div>
 						</div>
 					</div>
@@ -208,6 +207,16 @@
 			image.style.display = "";
 		}
 		//URL.revokeObjectURL(url);
+	};
+	//Temporary
+	var enterDealership = function(event)
+	{
+		debugger;
+		var sel = document.getElementById("selectDealership");
+		var inp = document.getElementById("dealership");
+		var op = document.createElement("option");
+		op.text = inp.value;
+		sel.add(op);
 	};
 </script>
 </html>
