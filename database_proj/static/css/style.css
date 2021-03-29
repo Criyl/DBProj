@@ -5,19 +5,20 @@ body {
 
 .logo-background {
     position: relative;
-    background-color: #DDDDDD;
+    background-color: #000000;
 }
 
 .logo-image {
    width:10%;
    float:left;
 }
+
 .logo-icon {
    height:400%;
-   background-color: #FFFFFF;
+   background-color: #000000;
    border-radius: 300px;
    border:1px solid;
-   border-color:#DDDDDD;
+   border-color:#111111;
 }
 .divider {
   height: 1px;

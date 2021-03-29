@@ -40,24 +40,33 @@ def catalogView(request):
         "makemodels": MakeModel.objects.all(),
         "colors": Color.objects.all()
     }
-    print("catalog... %s" % request.method)
+
     if request.method == 'POST':
-        print("CAR REQUEST")
-        print("post: %s" % request.POST)
-        print("VIN: %s" % request.POST.get('add_vin'))
-        car = Car()
-        car.vin = request.POST.get('add_vin')
-        car.year = request.POST.get('add_year')
-        car.ticket_price = request.POST.get('add_price')
-        car.mileage = request.POST.get('add_mile')
-        car.description = request.POST.get('add_description')
-        car.img_dir = "/0000"
+        if 'CAR' in request.POST:
+            car = Car()
+            car.vin = request.POST.get('add_vin')
+            car.year = request.POST.get('add_year')
+            car.ticket_price = request.POST.get('add_price')
+            car.mileage = request.POST.get('add_mile')
+            car.description = request.POST.get('add_description')
+            car.img_dir = "/0000"
 
-        car.mm_id = MakeModel.objects.filter(mmid=request.POST.get('add_mm')).first()
-        car.color_id = Color.objects.filter(color_id=request.POST.get('add_color')).first()
-        car.site_id = Site.objects.filter(site_id=request.POST.get('add_dealership')).first()
+            car.mm_id = MakeModel.objects.filter(mmid=request.POST.get('add_mm')).first()
+            car.color_id = Color.objects.filter(color_id=request.POST.get('add_color')).first()
+            car.site_id = Site.objects.filter(site_id=request.POST.get('add_dealership')).first()
+            car.save()
 
-        car.save()
-        return render(request, 'catalog.html', context)
+        if 'MM' in request.POST:
+            mm = MakeModel()
+
+            mm.make = request.POST.get('add_make')
+            mm.model = request.POST.get('add_model')
+
+            mm.save()
+
+        if 'COLOR' in request.POST:
+            c = Color()
+            c.color = request.POST.get('add_new_color')
+            c.save()
 
     return render(request, 'catalog.html', context)
