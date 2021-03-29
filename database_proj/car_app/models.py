@@ -50,14 +50,30 @@ class Customer(models.Model):
     address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
+class MakeModel(models.Model):
+    mmid = models.AutoField(primary_key=True)
+    make = models.CharField(max_length=DEFAULT_MAX)
+    model = models.CharField(max_length=DEFAULT_MAX)
+
+
+class Color(models.Model):
+    color_id = models.AutoField(primary_key=True)
+    color = models.CharField(max_length=DEFAULT_MAX)
+
+
 class Car(models.Model):
     car_id = models.AutoField(primary_key=True)
-    make_name = models.CharField(max_length=DEFAULT_MAX)
-    model_name = models.CharField(max_length=DEFAULT_MAX)
+    vin = models.CharField(max_length=DEFAULT_MAX)
+
+    mm_id = models.ForeignKey(MakeModel, on_delete=models.DO_NOTHING)
     year = models.IntegerField()
-    color = models.CharField(max_length=DEFAULT_MAX)
+    ticket_price = models.IntegerField()
     mileage = models.IntegerField()
+    site_id = models.ForeignKey(Site, on_delete=models.DO_NOTHING)
     description = models.CharField(max_length=200)
+    img_dir = models.CharField(max_length=DEFAULT_MAX)
+
+    color_id = models.ForeignKey(Color, on_delete=models.DO_NOTHING)
 
 
 class Transaction(models.Model):
