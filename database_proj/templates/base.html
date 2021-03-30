@@ -52,18 +52,42 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <input class="form-control" id="user" type="text" placeholder="Username..."><br/>
-                            <input class="form-control" id="pass" type="text" placeholder="Password...">
+                            <input class="form-control" id="pass" type="password" placeholder="Password...">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" onclick="location.href = '/car_manager';" class="btn btn-primary" data-dismiss="modal">Enter</button>
+                <button type="submit" onclick="logIn();" class="btn btn-primary" id="login Button">Enter</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+	var logIn = function()
+	{
+		debugger;
+		var mod = document.getElementById("log-inModal");
+		var but = document.getElementById("login Button");
+		var user = document.getElementById("user");
+		var pass = document.getElementById("pass");
+		if ( user.value == "User" & pass.value == "Pass" )
+		{
+			but.dataset.dismiss="modal";
+			window.location.replace("/car_manager");
+		}
+		else if ( user.value == "" & pass.value == "" )
+		{
+			mod.textContent = "Please Enter Log-In Info";
+		}
+		else
+		{
+			mod.textContent = "Error, Incorrect Log-In Info";
+		}
+	}
+</script>
 
 {% block content %}
 
