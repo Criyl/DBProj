@@ -17,33 +17,33 @@
 		background-size:80%;padding:0 130px;height:650px;background-position:20% 0;">
     <div class="container"><br /><br />
         <div class="right">
-            <br /><button type="button">Potential Sales</button>
+            <br /><button type="button" class="btn btn-primary">Potential Sales</button>
             <div style="padding: 5px 0;">
-                <button type="button" style="padding: 0 22px;">Sold Cars</button>
+                <button type="button" class="btn btn-primary" style="padding: 0 22px;">Sold Cars</button>
             </div>
         </div>
         <form action="" method="CAR">
 			<div>
 				<br />
-				Dealership: <select name="dealership" id="selectDealership">
+				Dealership: <select name="dealership" id="selectDealership" class="form-control" style="width:87px;">
 					<option value="none">Select</option>
 					<option value="brown daub">Brown Daub</option>
 				</select>
-				&emsp;Car Make: <select name="make_name">
+				Car Make: <select name="make_name" class="form-control" style="width:87px;">
 					<option value="none">Select</option>
 					<option value="nissan">Nissan</option>
 					<option value="ford">Ford</option>
 					<option value="chevy">Chevy</option>
 					<option value="audi">Audi</option>
 				</select>
-				&emsp;Car Model: <select name="model_name">
+				Car Model: <select name="model_name" class="form-control" style="width:87px;">
 					<option value="none">Select</option>
 					<option value="rogue">Rogue</option>
 					<option value="taurus">Taurus</option>
 					<option value="camaro">Camaro</option>
 					<option value="a8">A8</option>
 				</select>
-				&emsp;Car Color: <select name="color">
+				Car Color: <select name="color" class="form-control" style="width:87px;">
 					<option value="none">Select</option>
 					<option value="red">Red</option>
 					<option value="blue">Blue</option>
@@ -57,7 +57,7 @@
 				</select>
 			</div>
 			<div>
-				<button type="button" style="padding: 0 39px;" data-toggle="modal" data-target="#addDealershipModal">Add Dealership</button>
+				<button type="button" class="btn btn-primary" style="padding:0 40px;" data-toggle="modal" data-target="#addDealershipModal">Add Dealership</button>
 				<div class="modal fade" id="addDealershipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
@@ -83,7 +83,7 @@
 						</div>
 					</div>
 				</div>
-				<button type="button" style="padding: 0 41px;" data-toggle="modal" data-target="#addMakeModal">Add Make</button>
+				<button type="button" class="btn btn-primary" style="padding: 0 42px;" data-toggle="modal" data-target="#addMakeModal">Add Make</button>
 				<div class="modal fade" id="addMakeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
@@ -109,7 +109,7 @@
 						</div>
 					</div>
 				</div>
-				<button type="button" style="padding: 0 45px;" data-toggle="modal" data-target="#addModelModal">Add Model</button>
+				<button type="button" class="btn btn-primary" style="padding: 0 45px;" data-toggle="modal" data-target="#addModelModal">Add Model</button>
 				<div class="modal fade" id="addModelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
@@ -135,7 +135,7 @@
 						</div>
 					</div>
 				</div>
-				<button type="button" style="padding: 0 43px;" data-toggle="modal" data-target="#addColorModal">Add Color</button>
+				<button type="button" class="btn btn-primary" style="padding: 0 45px;" data-toggle="modal" data-target="#addColorModal">Add Color</button>
 				<div class="modal fade" id="addColorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
@@ -163,7 +163,7 @@
 				</div>
 			</div>
 			<div>
-				<br />Car Year: <input name="year" type="number" min="1990" max="2021" value="1990">
+				<br />Car Year: <input name="year" type="number" class="form-control" style="width:87px;" min="1990" max="2021" value="1990">
 				Car Mileage: <input name="mileage" type="number" min="1000" max="75000" value="1000">
 				Car VIN#: <input name="vin" type="number" min="00000000" max="9999999" value="0000000">
 				Car Price: <input name="price" type="number" min="30000" max="150000" value="30000">
@@ -183,9 +183,9 @@
 					</div>
 				</div>
 				<div style="padding: 25px 0;text-align:right;">
-					<button type="submit" style="padding: 0 19px;" value="CAR">Add Car</button><br />
+					<button type="submit" class="btn btn-primary" style="padding: 0 19px;" value="CAR">Add Car</button><br />
 					<div style="padding:15px 0;">
-						<button type="button" style="padding: 1px 5px;" value="DELETE">Remove Car</button>
+						<button type="button" class="btn btn-primary" style="padding: 1px 5px;" value="DELETE">Remove Car</button>
 					</div>
 				</div>
 			</div>
@@ -197,16 +197,16 @@
 	var showImage = function(event)
 	{
 		debugger;
+		var old = back.style.backgroundImage;
+		URL.revokeObjectURL(old);
 		var image = document.getElementById("car");
 		var back = document.getElementById("background");
 		var url = "url('" + URL.createObjectURL(event.target.files[0]) + "')";
-		//image.src = URL.createObjectURL(event.target.files[0]);
 		back.style.backgroundImage = url;
-		image.onload = function ()
+		/*image.onload = function ()
 		{ 
 			image.style.display = "";
-		}
-		//URL.revokeObjectURL(url);
+		}*/
 	};
 	//Temporary
 	var enterDealership = function(event)

@@ -28,7 +28,7 @@
                     <li class="nav-item"><a href="/">Home</a></li>
                     <li class="nav-item"><a href="/catalog">Catalog</a></li>
                     <li class="nav-item"><a href="#dont">Contact Us</a></li>
-                    <li><a href="#loginModal" data-toggle="modal">Sales</a></li>
+                    <li><a href="#loginModal" data-toggle="modal" onclick="setFocus()">Sales</a></li>
                     <li><a href="/customer">Customer</a></li>
                 </ul>
             </div>
@@ -51,15 +51,15 @@
                 <form>
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <input class="form-control" id="user" type="text" placeholder="Username..."><br/>
-                            <input class="form-control" id="pass" type="password" placeholder="Password...">
+                            <input class="form-control" id="user" placeholder="Username..." type="text" autofocus><br/>
+                            <input class="form-control" id="pass" placeholder="Password..." type="password" onkeyup="checkKey(event)">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" onclick="logIn();" class="btn btn-primary" id="login Button">Enter</button>
+                <button type="submit" onclick="logIn();" class="btn btn-primary" id="log-inButton">Enter</button>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
 	{
 		debugger;
 		var mod = document.getElementById("log-inModal");
-		var but = document.getElementById("login Button");
+		var but = document.getElementById("log-inButton");
 		var user = document.getElementById("user");
 		var pass = document.getElementById("pass");
 		if ( user.value == "User" & pass.value == "Pass" )
@@ -86,6 +86,16 @@
 		{
 			mod.textContent = "Error, Incorrect Log-In Info";
 		}
+	}
+	var checkKey = function(e)
+	{
+		if(e.keyCode == 13)
+			logIn();
+	}
+	var setFocus = function()
+	{
+		var user = document.getElementById("user");
+		setTimeout(function() {user.focus();}, 500);
 	}
 </script>
 
