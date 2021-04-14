@@ -28,7 +28,7 @@
                     <li class="nav-item"><a href="/">Home</a></li>
                     <li class="nav-item"><a href="/catalog">Catalog</a></li>
                     <li class="nav-item"><a href="#dont">Contact Us</a></li>
-                    <li><a href="#loginModal" data-toggle="modal" onclick="setFocus()">Sales</a></li>
+                    <li><a href="/salesman">Sales</a></li>
                     <li><a href="/customer">Customer</a></li>
                 </ul>
             </div>
@@ -52,7 +52,8 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <input class="form-control" id="user" placeholder="Username..." type="text" autofocus><br/>
-                            <input class="form-control" id="pass" placeholder="Password..." type="password" onkeyup="checkKey(event)">
+                            <input class="form-control" id="pass" placeholder="Password..." type="password"
+                                   onkeyup="checkKey(event)">
                         </div>
                     </div>
                 </form>
@@ -97,6 +98,8 @@
 		var user = document.getElementById("user");
 		setTimeout(function() {user.focus();}, 500);
 	}
+
+
 </script>
 
 {% block content %}

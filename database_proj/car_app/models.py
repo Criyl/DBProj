@@ -22,25 +22,12 @@ class Site(models.Model):
     address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
-class Position(models.Model):
-    position_id = models.AutoField(primary_key=True)
-    position_name = models.CharField(max_length=DEFAULT_MAX)
-
-    def __str__(self):
-        return '%s' % self.position_name
-
-
 class Salesman(models.Model):
     employee_id = models.AutoField(primary_key=True)
     f_name = models.CharField(max_length=DEFAULT_MAX)
     l_name = models.CharField(max_length=DEFAULT_MAX)
-    position_id = models.ForeignKey(Position, on_delete=models.DO_NOTHING)
-    base_pay = models.FloatField()
-    commission = models.FloatField()
-
-    @classmethod
-    def create(cls, f, l, p, b, c):
-        return cls(f_name=f, l_name=l, position_id=p, base_pay=b, commission=c)
+    email = models.CharField(max_length=DEFAULT_MAX)
+    password = models.CharField(max_length=DEFAULT_MAX)
 
 
 class Customer(models.Model):
@@ -48,6 +35,8 @@ class Customer(models.Model):
     f_name = models.CharField(max_length=DEFAULT_MAX)
     l_name = models.CharField(max_length=DEFAULT_MAX)
     address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
+    email = models.CharField(max_length=DEFAULT_MAX)
+    password = models.CharField(max_length=DEFAULT_MAX)
 
 
 class MakeModel(models.Model):
@@ -80,4 +69,16 @@ class Transaction(models.Model):
     transaction_id = models.AutoField(primary_key=True)
     customer_id = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     employee_id = models.ForeignKey(Salesman, on_delete=models.DO_NOTHING)
+    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
+
+
+class PotentialSales(models.Model):
+    potential_id = models.AutoField(primary_key=True)
+    customer_id = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
+    salesman_id = models.ForeignKey(Salesman, blank=True, null=True, on_delete=models.DO_NOTHING)
+
+
+class Inventory(models.Model):
+    inventory_id = models.AutoField(primary_key=True)
     car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
