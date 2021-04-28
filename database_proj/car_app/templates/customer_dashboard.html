@@ -21,7 +21,7 @@
                     <form method="POST">
                         {% csrf_token %}
                         <div class="modal-body">
-                            <input class="hidden" name="customer_id" value="{{s.customer_id}}">
+                            <input class="hidden" name="customer_id" value="{{c.customer_id}}">
                             Are you sure you want to delete {{ c.f_name }} {{ c.l_name }}?
                         </div>
                         <div class="modal-footer">
@@ -35,7 +35,7 @@
         </div>
 
 
-        <!-- Salesperon Info -->
+        <!-- Customer Info -->
         <div class="modal fade" id="info_{{c.customer_id}}" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -44,7 +44,7 @@
                     <div class="modal-header">
                         <div class="row text-center">
                             <h2 class="modal-title" id="info_{{c.customer_id}}_longtitle">
-                                Salesperson History</h2></div>
+                                Customer Information</h2></div>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                 style="float:right;">
                             <span aria-hidden="true">&times;</span>
@@ -143,6 +143,7 @@
         </div>
     </div>
 
+
     <!--Saved Listing-->
     <h4>Saved Listings</h4>
     <table id="saved" class="table table-striped table-bordered table-sm" cellspacing="0"
@@ -161,37 +162,46 @@
         </thead>
         <tbody>
 
+        {% for p in potentials%}
         <tr>
-            <td>Audi</td>
-            <td>A6</td>
-            <td>2020</td>
-            <td>$50,990</td>
-            <td>7,257</td>
-            <td>Black</td>
-            <td>Mount Pocono Dealership</td>
+            <td>{{ p.inv_id.car_id.mm_id.make }}</td>
+            <td>{{ p.inv_id.car_id.mm_id.model }}</td>
+            <td>{{ p.inv_id.car_id.year }}</td>
+            <td>{{ p.inv_id.car_id.ticket_price }}</td>
+            <td>{{ p.inv_id.car_id.mileage}}</td>
+            <td>{{ p.inv_id.car_id.color_id.color }}</td>
+            <td>{{ p.inv_id.car_id.site_id.site_name}}</td>
             <td>
                 <div class="text-center vcenter" style="padding-right:10px">
-                    <button type="button" class="btn btn-primary">Buy</button>
-                    <button type="button" class="btn btn-primary">Remove</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#confirm_delete_{{p.car_id.car_id}}">Remove
+                    </button>
                 </div>
             </td>
         </tr>
-        <tr>
-            <td>Audi</td>
-            <td>R8 Coupe</td>
-            <td>2020</td>
-            <td>$153,990</td>
-            <td>2,565</td>
-            <td>White</td>
-            <td>Mount Pocono Dealership</td>
-            <td>
-                <div class="text-center vcenter" style="padding-right:10px">
-                    <button type="button" class="btn btn-primary">Buy</button>
-                    <button type="button" class="btn btn-primary">Remove</button>
+        <!-- Remove -->
+        <div class="modal fade" id="confirm_delete_{{p.car_id.car_id}}">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input class="hidden" name="potential_id" value="{{ p.potential_id }}">
+                            Are you sure you want to delete this car?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Submit" name="REMOVE_POTENTIAL"/>
+                        </div>
+                    </form>
                 </div>
-            </td>
-        </tr>
-        </tfoot>
+            </div>
+        </div>
+
+        {% endfor %}
+
+        </tbody>
     </table>
 
     <!--Purchase History-->
@@ -202,7 +212,6 @@
         <thead>
         <tr>
             <th class="th-lg">Transaction #</th>
-            <th class="th-lg">Picture</th>
             <th class="th-sm">Make</th>
             <th class="th-sm">Model</th>
             <th class="th-sm">Year</th>
@@ -213,18 +222,20 @@
         </tr>
         </thead>
         <tbody>
+        {% for t in transactions %}
         <tr>
-            <td>000324</td>
-            <td><img alt="no thumbnail"></td>
-            <td>Audi</td>
-            <td>R8 Coupe</td>
-            <td>2020</td>
-            <td>$153,990</td>
-            <td>2,565</td>
-            <td>White</td>
-            <td>Mount Pocono Dealership</td>
+            <td>{{ t.transaction_id }}</td>
+            <td>{{ t.car_id.mm_id.make }}</td>
+            <td>{{ t.car_id.mm_id.model }}</td>
+            <td>{{ t.car_id.year }}</td>
+            <td>{{ t.car_id.ticket_price }}</td>
+            <td>{{ t.car_id.mileage}}</td>
+            <td>{{ t.car_id.color_id.color }}</td>
+            <td>{{ t.car_id.site_id.site_name}}</td>
         </tr>
-        </tfoot>
+        {% endfor %}
+
+        </tbody>
     </table>
 </div>
 

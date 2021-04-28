@@ -195,13 +195,13 @@
             <tr>
 
                 <td>{{ p.customer_id.f_name }} {{ p.customer_id.l_name }}</td>
-                <td>{{ p.car_id.car_id}}</td>
-                <td>{{ p.car_id.color_id.color}}</td>
-                <td>{{ p.car_id.mm_id.make }} {{ p.car_id.mm_id.model }}</td>
-                <td>{{ p.car_id.year }}</td>
-                <td>{{ p.car_id.mileage }}</td>
-                <td>{{ p.car_id.ticket_price }}</td>
-                <td>{{ p.car_id.site_id.site_name }}</td>
+                <td>{{ p.inv_id.car_id.car_id}}</td>
+                <td>{{ p.inv_id.car_id.color_id.color}}</td>
+                <td>{{ p.inv_id.car_id.mm_id.make }} {{ p.car_id.mm_id.model }}</td>
+                <td>{{ p.inv_id.car_id.year }}</td>
+                <td>{{ p.inv_id.car_id.mileage }}</td>
+                <td>{{ p.inv_id.car_id.ticket_price }}</td>
+                <td>{{ p.inv_id.car_id.site_id.site_name }}</td>
 
                 <td>
                     <div class="text-center vcenter" style="padding-right:10px">
@@ -222,9 +222,15 @@
                                 <form method="POST">
                                     {% csrf_token %}
                                     <div class="modal-body">
-                                        <input class="hidden" name="employee_id" value="1">
+                                        <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
+                                        Who is selling the car?
+                                        <select class="form-control" id="employee_id" name="employee_id" required>
+                                            {% for s in salesman %}
+                                            <option value="{{ s.employee_id}}">{{ s.f_name }} {{ s.l_name }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
                                         <input class="hidden" name="potential_id" value="{{p.potential_id}}">
-                                        Are you sure you want to sell this vehicle?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel

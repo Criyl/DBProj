@@ -7,9 +7,17 @@
     <h1 class="text-center">Catalog</h1>
 
     <!-- Advanced Search Modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeinfomodal">
-        Advanced Search
-    </button>
+    <div class="row">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeinfomodal">
+            Advanced Search
+        </button>
+
+        <!-- Add Car -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addcar">
+            +
+        </button>
+
+    </div>
 
     <div class="modal fade" id="changeinfomodal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -135,11 +143,6 @@
         </div>
     </div>
 
-
-    <!-- Add Car -->
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addcar">
-        +
-    </button>
 
     <div class="modal fade" id="addcar" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -481,253 +484,250 @@
         </div>
     </div>
 
-    <!-- Search Bar -->
-    <div class="row text-right" style="float:right">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"/>
-        <button type="button" class="btn btn-outline-primary">search</button>
-    </div>
-
 
     <!-- Table -->
-    <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0"
-           width="100%">
-        <thead>
-        <tr>
-            <th class="th-sm">Make</th>
-            <th class="th-sm">Model</th>
-            <th class="th-sm">Year</th>
-            <th class="th-sm">Price</th>
-            <th class="th-sm">Mileage</th>
-            <th class="th-sm">Color</th>
-            <th class="th-sm">Dealership</th>
-            <th class="th-sm">Description</th>
-            <th class="th-sm"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for c in inventory %}
-        {% if 0 == 1 %}
-        <tr>
-            <td>OMITTED</td>
-        </tr>
-        {% else %}
-        <tr>
-            <td>{{ c.car_id.mm_id.make }}</td>
-            <td>{{ c.car_id.mm_id.model }}</td>
-            <td>{{ c.car_id.year }}</td>
-            <td>{{ c.car_id.ticket_price }}</td>
-            <td>{{ c.car_id.mileage }}</td>
-            <td>{{ c.car_id.color_id.color }}</td>
-            <td>{{ c.car_id.site_id.site_name }}</td>
-            <td>{{ c.car_id.description }}</td>
-            <td>
-                <div class="text-center vcenter" style="padding-right:10px">
-                    <form method="POST">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#confirm_buy_{{c.car_id.car_id}}">Buy
-                        </button>
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                                data-target="#editcar_{{c.car_id.car_id}}">Edit
-                        </button>
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                                data-target="#confirm_delete_{{c.car_id.car_id}}">Delete
-                        </button>
-                    </form>
-                </div>
-            </td>
-        </tr>
+    <div class="row">
 
-        {% endif %}
-        <!-- Buy -->
-        <div class="modal fade" id="confirm_buy_{{c.car_id.car_id}}">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="modal-body">
-                            <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
-                            Who is interested in buying?
-                            <select class="form-control" id="customer_id" name="customer_id" required>
-                                {% for cust in customers %}
-                                <option value="{{ cust.customer_id }}">{{ cust.f_name }} {{ cust.l_name }}</option>
-                                {% endfor %}
-                            </select>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+        <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0"
+               width="100%">
+            <thead>
+            <tr>
+                <th class="th-sm">Make</th>
+                <th class="th-sm">Model</th>
+                <th class="th-sm">Year</th>
+                <th class="th-sm">Price</th>
+                <th class="th-sm">Mileage</th>
+                <th class="th-sm">Color</th>
+                <th class="th-sm">Dealership</th>
+                <th class="th-sm">Description</th>
+                <th class="th-sm"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for c in inventory %}
+            {% if 0 == 1 %}
+            <tr>
+                <td>OMITTED</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td>{{ c.car_id.mm_id.make }}</td>
+                <td>{{ c.car_id.mm_id.model }}</td>
+                <td>{{ c.car_id.year }}</td>
+                <td>{{ c.car_id.ticket_price }}</td>
+                <td>{{ c.car_id.mileage }}</td>
+                <td>{{ c.car_id.color_id.color }}</td>
+                <td>{{ c.car_id.site_id.site_name }}</td>
+                <td>{{ c.car_id.description }}</td>
+                <td>
+                    <div class="text-center vcenter" style="padding-right:10px">
+                        <form method="POST">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#confirm_buy_{{c.car_id.car_id}}">Buy
                             </button>
-                            <input type="submit" class="btn btn-primary" value="Submit" name="BUY"/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit -->
-        <div class="modal fade" id="editcar_{{c.car_id.car_id}}" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="editcarlongtitle" style="float:left;"> Edit Car </h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                style="float:right;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                    data-target="#editcar_{{c.car_id.car_id}}">Edit
+                            </button>
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                    data-target="#confirm_delete_{{c.car_id.car_id}}">Delete
+                            </button>
+                        </form>
                     </div>
-                    <div class="modal-body">
+                </td>
+            </tr>
 
+            {% endif %}
+            <!-- Buy -->
+            <div class="modal fade" id="confirm_buy_{{c.car_id.car_id}}">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
                         <form method="POST">
                             {% csrf_token %}
-                            <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
-                            <div class="form-row">
-                                <!-- VIN Row -->
-                                <div class="row">
-                                    <div class="form-group col-md-5">
-                                        <label class="my-1 mr-2" for="add_vin">VIN number</label>
-                                        <textarea class="form-control" id="edit_vin" name="edit_vin" rows="1"
-                                                  required>{{c.car_id.vin}}</textarea>
-                                    </div>
-                                </div>
+                            <div class="modal-body">
+                                <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
+                                Who is interested in buying?
+                                <select class="form-control" id="customer_id" name="customer_id" required>
+                                    {% for cust in customers %}
+                                    <option value="{{ cust.customer_id }}">{{ cust.f_name }} {{ cust.l_name }}</option>
+                                    {% endfor %}
+                                </select>
 
-                                <!-- Make+Model Row-->
-                                <div class="row">
-                                    <!--Make group-->
-                                    <div class="form-group col-md-5">
-                                        <label class="my-1 mr-2" for="dealership">
-                                            Make And Model
-                                            <a data-toggle="modal"
-                                               data-target="#mmm">+</a>
-                                        </label>
-
-                                        <select class="form-control" id="edit_mm" name="edit_mm" required>
-                                            <option disabled selected value="{{c.car_id.mm_id.mmid}}">
-                                                {{ c.car_id.mm_id.make}}
-                                                {{ c.car_id.mm_id.model }}
-                                            </option>
-
-                                            {% for mm in makemodels %}
-                                            <option value="{{ mm.mmid }}">{{ mm.make}} {{ mm.model}}</option>
-                                            {% endfor %}
-                                        </select>
-
-                                    </div>
-
-                                    <!--Year group-->
-                                    <div class="form-group col-md-3">
-                                        <label for="year">Year</label>
-                                        <input class="form-control" id="edit_year" name="edit_year" type="number"
-                                               placeholder="Year" value="{{c.car_id.year}}" required>
-                                    </div>
-                                </div>
-
-                                <!--Price group-->
-                                <div class="divider"></div>
-                                <div class="row">
-                                    <div class="form-group col-md-3">
-                                        <label for="pricelow">Price</label>
-                                        <input class="form-control" id="edit_price" name="edit_price"
-                                               type="number"
-                                               step="1000"
-                                               placeholder="Price" value="{{c.car_id.ticket_price}}" required>
-                                    </div>
-
-                                    <div class="form-group col-md-3">
-                                        <label for="milelow">Mileage</label>
-                                        <input class="form-control" id="edit_mile" name="edit_mile" type="number"
-                                               step="1000"
-                                               placeholder="Mileage" value="{{c.car_id.mileage}}" required>
-                                    </div>
-                                </div>
-
-                                <!-- Color group   -->
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label class="my-1 mr-2" for="edit_color">Color
-                                            <a data-toggle="modal"
-                                               data-target="#color">+</a>
-                                        </label>
-                                        <select class="form-control" id="edit_color" name="edit_color" required>
-                                            <option disabled selected value="{{c.car_id.color_id}}">
-                                                {{c.car_id.color_id.color}}
-                                            </option>
-
-                                            {% for col in colors %}
-                                            <option value="{{ col.color_id }}">{{ col.color }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <!-- other -->
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label class="my-1 mr-2" for="dealership">Dealership <a data-toggle="modal"
-                                                                                                data-target="#newdealership">+</a></label>
-                                        <select class="form-control" id="edit_dealership" name="edit_dealership"
-                                                required>
-                                            <option disabled selected value="{{c.car_id.site_id}}">
-                                                {{ c.car_id.site_id.site_name }}
-                                            </option>
-
-                                            {% for site in dealerships %}
-                                            <option value="{{ site.site_id }}">{{ site.site_name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label class="my-1 mr-2" for="edit_description">Description</label>
-
-                                        <textarea class="form-control" id="edit_description"
-                                                  name="edit_description" maxlength="200"
-                                                  rows="3">{{c.car_id.description}}</textarea>
-                                    </div>
-
-                                </div>
                             </div>
-
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
                                 </button>
-                                <input type="submit" class="btn btn-primary" value="Submit" name="EDIT"/>
+                                <input type="submit" class="btn btn-primary" value="Submit" name="BUY"/>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit -->
+            <div class="modal fade" id="editcar_{{c.car_id.car_id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="editcarlongtitle" style="float:left;"> Edit Car </h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    style="float:right;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
+                                <div class="form-row">
+                                    <!-- VIN Row -->
+                                    <div class="row">
+                                        <div class="form-group col-md-5">
+                                            <label class="my-1 mr-2" for="add_vin">VIN number</label>
+                                            <textarea class="form-control" id="edit_vin" name="edit_vin" rows="1"
+                                                      required>{{c.car_id.vin}}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Make+Model Row-->
+                                    <div class="row">
+                                        <!--Make group-->
+                                        <div class="form-group col-md-5">
+                                            <label class="my-1 mr-2" for="dealership">
+                                                Make And Model
+                                                <a data-toggle="modal"
+                                                   data-target="#mmm">+</a>
+                                            </label>
+
+                                            <select class="form-control" id="edit_mm" name="edit_mm" required>
+                                                <option disabled selected value="{{c.car_id.mm_id.mmid}}">
+                                                    {{ c.car_id.mm_id.make}}
+                                                    {{ c.car_id.mm_id.model }}
+                                                </option>
+
+                                                {% for mm in makemodels %}
+                                                <option value="{{ mm.mmid }}">{{ mm.make}} {{ mm.model}}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                        </div>
+
+                                        <!--Year group-->
+                                        <div class="form-group col-md-3">
+                                            <label for="year">Year</label>
+                                            <input class="form-control" id="edit_year" name="edit_year" type="number"
+                                                   placeholder="Year" value="{{c.car_id.year}}" required>
+                                        </div>
+                                    </div>
+
+                                    <!--Price group-->
+                                    <div class="divider"></div>
+                                    <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <label for="pricelow">Price</label>
+                                            <input class="form-control" id="edit_price" name="edit_price"
+                                                   type="number"
+                                                   step="1000"
+                                                   placeholder="Price" value="{{c.car_id.ticket_price}}" required>
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            <label for="milelow">Mileage</label>
+                                            <input class="form-control" id="edit_mile" name="edit_mile" type="number"
+                                                   step="1000"
+                                                   placeholder="Mileage" value="{{c.car_id.mileage}}" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Color group   -->
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label class="my-1 mr-2" for="edit_color">Color
+                                                <a data-toggle="modal"
+                                                   data-target="#color">+</a>
+                                            </label>
+                                            <select class="form-control" id="edit_color" name="edit_color" required>
+                                                <option disabled selected value="{{c.car_id.color_id}}">
+                                                    {{c.car_id.color_id.color}}
+                                                </option>
+
+                                                {% for col in colors %}
+                                                <option value="{{ col.color_id }}">{{ col.color }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <!-- other -->
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label class="my-1 mr-2" for="dealership">Dealership <a data-toggle="modal"
+                                                                                                    data-target="#newdealership">+</a></label>
+                                            <select class="form-control" id="edit_dealership" name="edit_dealership"
+                                                    required>
+                                                <option disabled selected value="{{c.car_id.site_id}}">
+                                                    {{ c.car_id.site_id.site_name }}
+                                                </option>
+
+                                                {% for site in dealerships %}
+                                                <option value="{{ site.site_id }}">{{ site.site_name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label class="my-1 mr-2" for="edit_description">Description</label>
+
+                                            <textarea class="form-control" id="edit_description"
+                                                      name="edit_description" maxlength="200"
+                                                      rows="3">{{c.car_id.description}}</textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                                    </button>
+                                    <input type="submit" class="btn btn-primary" value="Submit" name="EDIT"/>
+                                </div>
+                            </form>
+
+                        </div>
 
                     </div>
-
                 </div>
             </div>
-        </div>
 
-        <!-- Delete -->
-        <div class="modal fade" id="confirm_delete_{{c.car_id.car_id}}">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="modal-body">
-                            <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
-                            Are you sure you want to delete this car?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
-                            </button>
-                            <input type="submit" class="btn btn-primary" value="Submit" name="DELETE_CAR"/>
-                        </div>
-                    </form>
+            <!-- Delete -->
+            <div class="modal fade" id="confirm_delete_{{c.car_id.car_id}}">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
+                                Are you sure you want to delete this car?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                                </button>
+                                <input type="submit" class="btn btn-primary" value="Submit" name="DELETE_CAR"/>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        {% endfor %}
+            {% endfor %}
 
-        </tfoot>
-    </table>
+            </tfoot>
+        </table>
 
+    </div>
 
 </div>
 

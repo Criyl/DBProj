@@ -72,13 +72,13 @@ class Transaction(models.Model):
     car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
 
 
-class PotentialSales(models.Model):
-    potential_id = models.AutoField(primary_key=True)
-    customer_id = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
-    salesman_id = models.ForeignKey(Salesman, blank=True, null=True, on_delete=models.DO_NOTHING)
-
-
 class Inventory(models.Model):
     inventory_id = models.AutoField(primary_key=True)
     car_id = models.ForeignKey(Car, on_delete=models.CASCADE)
+
+
+class PotentialSales(models.Model):
+    potential_id = models.AutoField(primary_key=True)
+    customer_id = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    inv_id = models.ForeignKey(Inventory, on_delete=models.DO_NOTHING)
+    salesman_id = models.ForeignKey(Salesman, blank=True, null=True, on_delete=models.DO_NOTHING)

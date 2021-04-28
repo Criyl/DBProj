@@ -117,13 +117,12 @@ def salesmanView(request):
 
             transaction = Transaction()
             transaction.customer_id = potential.customer_id
-            transaction.car_id = potential.car_id
+            transaction.car_id = potential.inv_id.car_id
             transaction.employee_id = Salesman.objects.filter(employee_id=employee_id).first()
             transaction.save()
 
-            inv = Inventory.objects.filter(car_id=potential.car_id).first()
-            inv.delete()
             potential.delete()
+            potential.inv_id.delete()
 
         if 'DENY' in request.POST:
             potential_id = request.POST.get('potential_id')
@@ -229,9 +228,9 @@ def catalogView(request):
             car_id = request.POST.get('car_id')
             customer_id = request.POST.get('customer_id')
 
-            if PotentialSales.objects.filter(car_id=car_id, customer_id=customer_id).count() == 0:
+            if PotentialSales.objects.filter(inv_id__car_id=car_id, customer_id=customer_id).count() == 0:
                 potential = PotentialSales()
-                potential.car_id = Car.objects.filter(car_id=car_id).first()
+                potential.inv_id = Inventory.objects.filter(car_id=car_id).first()
                 potential.customer_id = Customer.objects.filter(customer_id=customer_id).first()
 
                 potential.save()
@@ -273,6 +272,7 @@ def customerView(request):
     context = {
         "customers": Customer.objects.all(),
         "potentials": PotentialSales.objects.all(),
+        "transactions": Transaction.objects.all(),
 
         "cars": Inventory.objects.all(),
         "dealerships": Site.objects.all(),
@@ -303,6 +303,18 @@ def customerView(request):
             customer.password = request.POST.get("customer_password")
 
             customer.save()
+        if 'DELETE' in request.POST:
+            customer_id = request.POST.get('customer_id')
+            if Customer.objects.filter(customer_id=customer_id).count() > 0:
+                customer = Customer.objects.filter(customer_id=customer_id).first()
+                customer.delete()
+
+        if 'REMOVE_POTENTIAL' in request.POST:
+            potential_id = request.POST.get('potential_id')
+
+            if PotentialSales.objects.filter(potential_id=potential_id).count() > 0:
+                potential = PotentialSales.objects.filter(potential_id=potential_id).first()
+                potential.delete()
 
     return render(request, 'customer_dashboard.html', context)
 
