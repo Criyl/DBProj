@@ -1,10 +1,23 @@
 # Create your views here.
+import pandas as pd
+import plotly.graph_objs as go
+import plotly.offline as oply
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
 from . import forms
 from .models import *
+
+
+def map_color(color):
+    map = {
+        "Silver": "",
+        "Black": "",
+        "Red": "",
+        "Blue": "",
+    }
+    return map.get(color, "")
 
 
 class CustomerDashView(CreateView):
@@ -17,6 +30,56 @@ class CatalogView(TemplateView):
     template_name = 'catalog.html'
 
 
+def piechart_inventory():
+    dict = {
+        "cars": [],
+        "Colors": [],
+        "markers": []
+    }
+
+    for inv in Inventory.objects.all():
+        dict["cars"] += [inv.car_id]
+        dict["Colors"] += [inv.car_id.color_id.color]
+        dict["markers"] += [inv.car_id.color_id.color]
+
+    df = pd.DataFrame(dict)
+    labels = df["Colors"].value_counts().index
+    values = df["Colors"].value_counts().values
+
+    # ByColor
+    trace = go.Pie(labels=labels, values=values,
+                   marker=go.pie.Marker({"colors": df["markers"].values}))
+    data = [trace]
+    layout = go.Layout(title="Inventory by Color", xaxis={'title': 'x1'}, yaxis={'title': 'x2'})
+    fig = go.Figure(data, layout)
+    inv_color_plt = oply.plot(fig, auto_open=False, output_type='div')
+
+    # BySold
+    dict = {
+        "cars": [],
+        "Colors": [],
+        "markers": []
+    }
+    for t in Transaction.objects.all():
+        dict["cars"] += [t.car_id]
+        dict["Colors"] += [t.car_id.color_id.color]
+        dict["markers"] += [t.car_id.color_id.color]
+
+    df = pd.DataFrame(dict)
+    labels = df["Colors"].value_counts().index
+    values = df["Colors"].value_counts().values
+
+    # ByColor
+    trace = go.Pie(labels=labels, values=values,
+                   marker=go.pie.Marker({"colors": df["markers"].values}))
+    data = [trace]
+    layout = go.Layout(title="Sold by Color", xaxis={'title': 'x1'}, yaxis={'title': 'x2'})
+    fig = go.Figure(data, layout)
+    trans_color_plt = oply.plot(fig, auto_open=False, output_type='div')
+
+    return [inv_color_plt, trans_color_plt]
+
+
 def salesmanView(request):
     context = {
         "cars": Car.objects.all(),
@@ -25,7 +88,8 @@ def salesmanView(request):
         "colors": Color.objects.all(),
         "salesman": Salesman.objects.all(),
         "potentials": PotentialSales.objects.all(),
-        "transactions": Transaction.objects.all()
+        "transactions": Transaction.objects.all(),
+        "charts": [] + piechart_inventory()
     }
     if request.method == 'POST':
         print(request.POST)
@@ -36,10 +100,13 @@ def salesmanView(request):
             salesman.email = request.POST.get('salesman_email')
             salesman.password = request.POST.get('salesman_password')
             salesman.save()
+
         if 'DELETE' in request.POST:
             id = request.POST.get('salesman_id')
             print(id)
             print(Salesman.objects.filter(employee_id=id))
+            for t in Transaction.objects.filter(employee_id=id):
+                t.employee_id = 0
             Salesman.objects.filter(employee_id=id).delete()
 
         if 'SELL' in request.POST:
@@ -68,13 +135,47 @@ def salesmanView(request):
 
 def catalogView(request):
     context = {
-        "cars": Inventory.objects.all(),
+        "customers": Customer.objects.all(),
+        "inventory": Inventory.objects.all(),
         "dealerships": Site.objects.all(),
         "makemodels": MakeModel.objects.all(),
         "colors": Color.objects.all()
     }
 
+    if request.method == 'GET':
+        print(request.GET)
+        if 'ADV_SEARCH' in request.GET:
+            if 'mm' in request.GET and request.GET.get('mm'):
+                list = request.GET.getlist('mm')
+                print(context["inventory"].filter(car_id__mm_id__in=list))
+                context["inventory"] = context["inventory"].filter(car_id__mm_id__in=list)
+
+            if 'pricelow' in request.GET and request.GET.get('pricelow'):
+                high = request.GET.get('pricelow')
+                context["inventory"] = context["inventory"].filter(car_id__ticket_price__gte=high)
+
+            if 'pricehigh' in request.GET and request.GET.get('pricehigh'):
+                high = request.GET.get('pricehigh')
+                context["inventory"] = context["inventory"].filter(car_id__ticket_price__lte=high)
+
+            if 'milelow' in request.GET and request.GET.get('milelow'):
+                high = request.GET.get('milelow')
+                context["inventory"] = context["inventory"].filter(car_id__mileage__gte=high)
+            if 'milehigh' in request.GET and request.GET.get('milehigh'):
+                high = request.GET.get('milehigh')
+                context["inventory"] = context["inventory"].filter(car_id__mileage__lte=high)
+
+            if 'colors' in request.GET and request.GET.get('colors'):
+                list = request.GET.getlist('colors')
+                context["inventory"] = context["inventory"].filter(car_id__color_id__in=list)
+
+            if 'dealership' in request.GET:
+                site = request.GET.get('dealership')
+                context["inventory"] = context["inventory"].filter(car_id__site_id=site)
+
     if request.method == 'POST':
+
+        print(request.POST)
         if 'CAR' in request.POST:
             car = Car()
             car.vin = request.POST.get('add_vin')
@@ -127,6 +228,7 @@ def catalogView(request):
         if 'BUY' in request.POST:
             car_id = request.POST.get('car_id')
             customer_id = request.POST.get('customer_id')
+
             if PotentialSales.objects.filter(car_id=car_id, customer_id=customer_id).count() == 0:
                 potential = PotentialSales()
                 potential.car_id = Car.objects.filter(car_id=car_id).first()
@@ -137,6 +239,18 @@ def catalogView(request):
         if 'EDIT' in request.POST:
             car_id = request.POST.get('car_id')
             car = Car.objects.filter(car_id=car_id).first()
+            if 'edit_mm' in request.POST:
+                edit_mmid = request.POST.get('edit_mm')
+                car.mm_id = MakeModel.objects.filter(mmid=edit_mmid).first()
+
+            if 'edit_color' in request.POST:
+                edit_color = request.POST.get('edit_color')
+                car.color_id = Color.objects.filter(color_id=edit_color).first()
+
+            if 'edit_dealership' in request.POST:
+                edit_dealership = request.POST.get('edit_dealership')
+                car.site_id = Site.objects.filter(site_id=edit_dealership).first()
+
             car.vin = request.POST.get('edit_vin')
             car.year = request.POST.get('edit_year')
             car.price = request.POST.get('edit_price')
@@ -150,4 +264,55 @@ def catalogView(request):
                 car = Car.objects.filter(car_id=car_id).first()
                 car.delete()
 
+    print(context)
+
     return render(request, 'catalog.html', context)
+
+
+def customerView(request):
+    context = {
+        "customers": Customer.objects.all(),
+        "potentials": PotentialSales.objects.all(),
+
+        "cars": Inventory.objects.all(),
+        "dealerships": Site.objects.all(),
+        "makemodels": MakeModel.objects.all(),
+        "colors": Color.objects.all()
+    }
+    if request.method == 'POST':
+        print(request.POST)
+        if 'CUSTOMER_EDIT' in request.POST:
+            customer_id = request.POST.get("customer_id")
+            customer = Customer.objects.filter(customer_id=customer_id).first()
+
+            if "fname" in request.POST and request.POST.get('fname'):
+                customer.f_name = request.POST.get("fname")
+
+            if "lname" in request.POST and request.POST.get('lname'):
+                customer.l_name = request.POST.get("lname")
+
+            customer.save()
+
+        if 'NEW_CUSTOMER' in request.POST:
+            customer = Customer()
+
+            customer.f_name = request.POST.get("customer_fname")
+            customer.l_name = request.POST.get("customer_lname")
+
+            customer.email = request.POST.get("customer_email")
+            customer.password = request.POST.get("customer_password")
+
+            customer.save()
+
+    return render(request, 'customer_dashboard.html', context)
+
+
+def loginView(request):
+    context = {
+        "cars": Inventory.objects.all(),
+        "dealerships": Site.objects.all(),
+        "makemodels": MakeModel.objects.all(),
+        "colors": Color.objects.all()
+    }
+
+    return render(request, 'account/login.html', context)

@@ -2,9 +2,9 @@
 {% load bootstrap3 %}
 {% load static %}
 {% block content %}
+
 <div class="container">
     <h1 class="text-center">Catalog</h1>
-
 
     <!-- Advanced Search Modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeinfomodal">
@@ -23,10 +23,27 @@
                 </div>
                 <div class="modal-body">
 
-                    <form>
+                    <form method="GET">
                         <div class="form-row">
                             <!-- Make+Model Row-->
                             <div class="row">
+
+                                <!--Make and Model group-->
+                                <div class="form-group col-md-5">
+                                    <label class="my-1 mr-2">
+                                        Make And Model
+                                    </label>
+
+                                    <select class="form-control" id="mm" name="mm">
+                                        <option disabled selected value>Choose...</option>
+
+                                        {% for mm in makemodels %}
+                                        <option value="{{ mm.mmid }}">{{ mm.make}} {{ mm.model}}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+
                                 <!--Make group-->
                                 <div class="form-group col-md-3">
                                     <label for="makeid">Make</label>
@@ -45,18 +62,20 @@
                                     <input class="form-control" id="year" type="text" placeholder="Year">
                                 </div>
                             </div>
+
                             <!--Price group-->
                             <h5 class="bold"><b>Price</b></h5>
                             <div class="divider"></div>
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="pricelow">Low</label>
-                                    <input class="form-control" id="pricelow" type="number" step="1000"
+                                    <input class="form-control" id="pricelow" name="pricelow" type="number" step="1000"
                                            placeholder="Low">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="pricehigh">High</label>
-                                    <input class="form-control" id="pricehigh" type="number" step="1000"
+                                    <input class="form-control" id="pricehigh" name="pricehigh" type="number"
+                                           step="1000"
                                            placeholder="High">
                                 </div>
                             </div>
@@ -66,38 +85,51 @@
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="milelow">Low</label>
-                                    <input class="form-control" id="milelow" type="number" step="1000"
+                                    <input class="form-control" id="milelow" name="milelow" type="number" step="1000"
                                            placeholder="Low">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="milehigh">High</label>
-                                    <input class="form-control" id="milehigh" type="number" step="1000"
+                                    <input class="form-control" id="milehigh" name="milehigh" type="number" step="1000"
                                            placeholder="High">
                                 </div>
                             </div>
 
+                            <!--Color group-->
+                            <div class="divider"></div>
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label class="my-1 mr-2" for="colors">Color</label>
+                                    <select class="form-control" id="colors" name="colors" multiple required>
+                                        <option disabled selected value="0">Choose...</option>
+
+                                        {% for c in colors %}
+                                        <option value="{{ c.color_id }}">{{ c.color }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label class="my-1 mr-2" for="dealership">Dealership</label>
-                                    <select class="form-control" id="dealership">
-                                        <option selected>Choose...</option>
-                                        <option value="1">Mount Pocono Dealership</option>
-                                        <option value="2">Bethlehem Dealership</option>
-                                        <option value="3">Philadelphia Dealership</option>
+                                    <select class="form-control" id="dealership" name="dealership" required>
+                                        <option disabled selected value="0">Choose...</option>
+
+                                        {% for site in dealerships %}
+                                        <option value="{{ site.site_id }}">{{ site.site_name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
-
-
                             </div>
                         </div>
-
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Submit" name="ADV_SEARCH"/>
+                        </div>
 
                     </form>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Search</button>
                 </div>
             </div>
         </div>
@@ -461,7 +493,6 @@
            width="100%">
         <thead>
         <tr>
-            <th class="th-lg">Picture</th>
             <th class="th-sm">Make</th>
             <th class="th-sm">Model</th>
             <th class="th-sm">Year</th>
@@ -474,9 +505,13 @@
         </tr>
         </thead>
         <tbody>
-        {% for c in cars %}
+        {% for c in inventory %}
+        {% if 0 == 1 %}
         <tr>
-            <td><img alt="no image"></td>
+            <td>OMITTED</td>
+        </tr>
+        {% else %}
+        <tr>
             <td>{{ c.car_id.mm_id.make }}</td>
             <td>{{ c.car_id.mm_id.model }}</td>
             <td>{{ c.car_id.year }}</td>
@@ -502,6 +537,7 @@
             </td>
         </tr>
 
+        {% endif %}
         <!-- Buy -->
         <div class="modal fade" id="confirm_buy_{{c.car_id.car_id}}">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -509,9 +545,14 @@
                     <form method="POST">
                         {% csrf_token %}
                         <div class="modal-body">
-                            <input class="hidden" name="customer_id" value="1">
                             <input class="hidden" name="car_id" value="{{c.car_id.car_id}}">
-                            Are you sure you are interested in buying?
+                            Who is interested in buying?
+                            <select class="form-control" id="customer_id" name="customer_id" required>
+                                {% for cust in customers %}
+                                <option value="{{ cust.customer_id }}">{{ cust.f_name }} {{ cust.l_name }}</option>
+                                {% endfor %}
+                            </select>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
@@ -529,7 +570,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="editcarlongtitle" style="float:left;"> New Car </h3>
+                        <h3 class="modal-title" id="editcarlongtitle" style="float:left;"> Edit Car </h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                 style="float:right;">
                             <span aria-hidden="true">&times;</span>
@@ -561,8 +602,8 @@
                                         </label>
 
                                         <select class="form-control" id="edit_mm" name="edit_mm" required>
-                                            <option disabled selected value="{{c.car_id.mm_id}}"> {{
-                                                c.car_id.mm_id.make}}
+                                            <option disabled selected value="{{c.car_id.mm_id.mmid}}">
+                                                {{ c.car_id.mm_id.make}}
                                                 {{ c.car_id.mm_id.model }}
                                             </option>
 
@@ -626,8 +667,8 @@
                                                                                                 data-target="#newdealership">+</a></label>
                                         <select class="form-control" id="edit_dealership" name="edit_dealership"
                                                 required>
-                                            <option disabled selected value="{{c.car_id.site_id}}">{{
-                                                c.car_id.site_id.site_name }}
+                                            <option disabled selected value="{{c.car_id.site_id}}">
+                                                {{ c.car_id.site_id.site_name }}
                                             </option>
 
                                             {% for site in dealerships %}

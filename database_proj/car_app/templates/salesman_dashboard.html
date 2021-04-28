@@ -2,109 +2,21 @@
 {% load bootstrap3 %}
 {% load static %}
 {% block content %}
+
 <div class="container">
-    <h1>Salesperson Dashboard</h1>
+    <h1 class="text-center">Salesperson Dashboard</h1>
 
 
-    <div class="row">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newdealership">
-            New Dealership
-        </button>
+    <!--    <div class="row">-->
+    <!--        <a href="catalog" class="btn btn-lg btn-primary" data-toggle="modal"-->
+    <!--           data-target="#newdealership">Report</a>-->
 
+    <!--        <a href="/catalog" data-target="#newdealership" class="btn btn-primary">New Dealership</a>-->
+    <!--        <button type="button" class="btn btn-primary" data-target="catalog">-->
+    <!--            New Dealership-->
+    <!--        </button>-->
+    <!--    </div>-->
 
-    </div>
-
-    <!-- Dealership -->
-    <div class="modal fade" id="newdealership" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="dealershiplongtitle" style="float:left;"> Dealership </h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            style="float:right;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form method="POST">
-
-                        {% csrf_token %}
-
-                        <div class="row">
-                            <div class="form-group col-md-5">
-                                <label class="my-1 mr-2" for="dealership_name">Dealership Name</label>
-                                <textarea class="form-control" id="dealership_name"
-                                          name="dealership_name"
-                                          rows="1" required></textarea>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="form-group col-md-5">
-                                <label class="my-1 mr-2" for="dealership_st_num">Street Number</label>
-                                <textarea class="form-control" id="dealership_st_num" name="dealership_st_num"
-                                          rows="1" required></textarea>
-                            </div>
-
-                            <div class="form-group col-md-5">
-                                <label class="my-1 mr-2" for="dealership_st_name">Street Name</label>
-                                <textarea class="form-control" id="dealership_st_name" name="dealership_st_name"
-                                          rows="1" required></textarea>
-                            </div>
-
-                            <div class="form-group col-md-5">
-                                <label class="my-1 mr-2" for="dealership_zipcode">Zipcode</label>
-                                <input class="form-control" id="dealership_zipcode" name="dealership_zipcode"
-                                       type="number"
-                                       placeholder="Zipcode" required>
-
-                            </div>
-
-                            <div class="form-group col-md-5">
-                                <label class="my-1 mr-2" for="dealership_city">City</label>
-                                <textarea class="form-control" id="dealership_city" name="dealership_city"
-                                          rows="1" required></textarea>
-                            </div>
-                            <div class="form-group col-md-5">
-                                <label class="my-1 mr-2" for="dealership_state">State</label>
-                                <textarea class="form-control" id="dealership_state" name="dealership_state"
-                                          rows="1" required></textarea>
-                            </div>
-
-                        </div>
-
-                        <table id="tabledealership" class="table table-striped table-bordered table-sm" cellspacing="0"
-                               width="100%">
-                            <thead>
-                            <tr>
-                                <th class="th-lg">Dealerships</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for d in dealerships %}
-                            <tr>
-                                <td>{{ d.site_name }}</td>
-                            </tr>
-
-                            {% endfor %}
-                            </tbody>
-                        </table>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
-                            </button>
-                            <input type="submit" class="btn btn-primary" value="Submit" name="DEALERSHIP"/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="row overflow-auto">
         {% for s in salesman %}
@@ -353,7 +265,13 @@
         </table>
     </div>
 
-
+    <div class="row">
+        {% for chart in charts %}
+        <div class="col-md-6">
+            {{ chart | safe }}
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 

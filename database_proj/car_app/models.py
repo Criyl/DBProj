@@ -34,7 +34,7 @@ class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     f_name = models.CharField(max_length=DEFAULT_MAX)
     l_name = models.CharField(max_length=DEFAULT_MAX)
-    address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
+    address_id = models.ForeignKey(Address, blank=True, null=True, on_delete=models.CASCADE)
     email = models.CharField(max_length=DEFAULT_MAX)
     password = models.CharField(max_length=DEFAULT_MAX)
 
@@ -81,4 +81,4 @@ class PotentialSales(models.Model):
 
 class Inventory(models.Model):
     inventory_id = models.AutoField(primary_key=True)
-    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
+    car_id = models.ForeignKey(Car, on_delete=models.CASCADE)

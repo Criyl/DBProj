@@ -5,27 +5,139 @@
 <div class="container">
     <h1 class="text-center">Customer Dashboard</h1>
 
-    <!-- Change Info Modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeinfomodal">
-        Change Info
-    </button>
-    <div class="modal fade" id="changeinfomodal" tabindex="-1" role="dialog"
+
+    <div class="row overflow-auto">
+        {% for c in customers %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#info_{{c.customer_id}}">
+            {{ c.f_name }} {{ c.l_name }}
+        </button>
+        <a type="submit" data-toggle="modal" data-target="#confirmmodal_{{c.customer_id}}">
+            X
+        </a>
+        <!--confirm delete -->
+        <div class="modal fade" id="confirmmodal_{{c.customer_id}}">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input class="hidden" name="customer_id" value="{{s.customer_id}}">
+                            Are you sure you want to delete {{ c.f_name }} {{ c.l_name }}?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Submit" name="DELETE"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Salesperon Info -->
+        <div class="modal fade" id="info_{{c.customer_id}}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="row text-center">
+                            <h2 class="modal-title" id="info_{{c.customer_id}}_longtitle">
+                                Salesperson History</h2></div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                style="float:right;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="row text-center"><h3>{{c.f_name}} {{c.l_name}}</h3></div>
+                    <div class="modal-body">
+                        <form method="POST">
+                            {% csrf_token %}
+
+                            <input class="hidden" name="customer_id" value="{{c.customer_id}}">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="my-1 mr-2" for="fname">First Name</label>
+                                    <textarea class="form-control" id="fname" name="fname"
+                                              rows="1"></textarea>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="my-1 mr-2" for="fname">Last Name</label>
+                                    <textarea class="form-control" id="lname" name="lname"
+                                              rows="1"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                                </button>
+                                <input type="submit" class="btn btn-primary" value="Make Change" name="CUSTOMER_EDIT"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newcustomer">
+            +
+        </button>
+    </div>
+
+    <!-- Customer -->
+    <div class="modal fade" id="newcustomer" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
+
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="exampleModalLongTitle" style="float:left;"> Change Info </h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float:right;">
+                    <h3 class="modal-title" id="customerlongtitle" style="float:left;"> Add Customer </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="float:right;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
-                    {% csrf_token %}
-                    {% bootstrap_form form %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="form-group col-md-5">
+                                <label class="my-1 mr-2" for="customer_fname">First Name</label>
+                                <textarea class="form-control" id="customer_fname" name="customer_fname"
+                                          rows="1" required></textarea>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label class="my-1 mr-2" for="customer_lname">Last Name</label>
+                                <textarea class="form-control" id="customer_lname" name="customer_lname"
+                                          rows="1" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-5">
+                                <label class="my-1 mr-2" for="customer_email">Email</label>
+                                <textarea class="form-control" id="customer_email" name="customer_email"
+                                          rows="1" required></textarea>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label class="my-1 mr-2" for="customer_password">Password</label>
+                                <textarea class="form-control" id="customer_password" name="customer_password"
+                                          rows="1" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Submit" name="NEW_CUSTOMER"/>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -37,7 +149,6 @@
            width="100%">
         <thead>
         <tr>
-            <th class="th-lg">Picture</th>
             <th class="th-sm">Make</th>
             <th class="th-sm">Model</th>
             <th class="th-sm">Year</th>
@@ -49,8 +160,8 @@
         </tr>
         </thead>
         <tbody>
+
         <tr>
-            <td><img alt="no thumbnail"></td>
             <td>Audi</td>
             <td>A6</td>
             <td>2020</td>
@@ -66,7 +177,6 @@
             </td>
         </tr>
         <tr>
-            <td><img alt="no thumbnail" src="{% static 'images/kachow.png' %}"></td>
             <td>Audi</td>
             <td>R8 Coupe</td>
             <td>2020</td>

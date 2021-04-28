@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+
+<div class="container container-small log-in-form text-center">
+    <h1 class="text-center">Sign in</h1>
+    <div class="container">
+
+        <form method="POST">
+            {% csrf_token %}
+            <label for="email">Email</label>
+            <textarea class="form-control" id="email" name="email" rows="1" required></textarea>
+
+            <label for="password">Password</label>
+            <textarea class="form-control" id="password" name="password" rows="1" required></textarea>
+
+            <input class="btn btn-primary" type="submit" value="Login">
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
